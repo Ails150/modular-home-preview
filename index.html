@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modular Home Builder</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f5f7fa; margin: 0; padding: 20px; }
+    .container { max-width: 800px; margin: 0 auto; background: white; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .tabs { display: flex; margin-bottom: 20px; }
+    .tab { flex: 1; text-align: center; cursor: pointer; }
+    .tab-circle { width: 30px; height: 30px; border-radius: 50%; background: #ddd; color: #666; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 5px; font-weight: bold; }
+    .tab-circle.active { background: #3b82f6; color: #fff; }
+    .tab-name { font-size: 14px; color: #666; }
+    .tab-name.active { color: #3b82f6; font-weight: bold; }
+    .page { display: none; }
+    .page.active { display: block; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+    .home-card, .option-label { display: flex; align-items: center; padding: 15px; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; transition: box-shadow 0.2s; }
+    .home-card:hover, .option-label:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+    .home-card.selected, .option-label.selected { border-color: #3b82f6; background: #eff6ff; }
+    .card-img { font-size: 40px; margin-right: 10px; }
+    .size-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .custom-btn { background: #3b82f6; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; }
+    .custom-form { display: none; background: #f0f7ff; padding: 15px; border: 1px solid #bfdbfe; border-radius: 8px; margin-bottom: 20px; }
+    .form-row { display: flex; gap: 15px; margin-bottom: 15px; }
+    .form-group { flex: 1; display: flex; flex-direction: column; }
+    .form-group label { margin-bottom: 5px; font-weight: 500; }
+    .form-input { padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+    .area-display { text-align: right; font-weight: bold; margin-top: 10px; }
+    .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; }
+    .btn { padding: 10px 20px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
+    .back-btn { background: #e5e7eb; color: #4b5563; }
+    .next-btn { background: #3b82f6; color: #fff; }
+    #zf_div_HtR3EzHuwl7dQL981SrBjL6pD9Xfq3fG4wF0AHYJUVI { margin-top: 20px; }
+    iframe { width: 100%; height: 600px; border: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="tabs">
+      <div class="tab" data-page="1"><div class="tab-circle active">1</div><div class="tab-name active">Type</div></div>
+      <div class="tab" data-page="2"><div class="tab-circle">2</div><div class="tab-name">Size</div></div>
+      <div class="tab" data-page="3"><div class="tab-circle">3</div><div class="tab-name">Exterior</div></div>
+      <div class="tab" data-page="4"><div class="tab-circle">4</div><div class="tab-name">Interior</div></div>
+      <div class="tab" data-page="5"><div class="tab-circle">5</div><div class="tab-name">Summary</div></div>
+    </div>
+
+    <div id="page1" class="page active">
+      <h1>Design Your Modular Home</h1>
+      <div class="grid">
+        <div class="home-card" data-name="1 Bedroom Home"><div class="card-img">🏠</div><div>1 Bedroom Home</div></div>
+        <div class="home-card" data-name="2 Bedroom Home"><div class="card-img">🏠</div><div>2 Bedroom Home</div></div>
+        <div class="home-card" data-name="3 Bedroom Home"><div class="card-img">🏠</div><div>3 Bedroom Home</div></div>
+        <div class="home-card" data-name="4 Bedroom Home"><div class="card-img">🏠</div><div>4 Bedroom Home</div></div>
+      </div>
+    </div>
+
+    <div id="page2" class="page">
+      <h1>Choose Your Size (inches)</h1>
+      <div class="size-header"><h3>Home Size Options</h3><button class="custom-btn" id="toggle-custom">Custom Size</button></div>
+      <div class="custom-form" id="custom-form">
+        <div class="form-row">
+          <div class="form-group"><label>Width (inches)</label><input id="width" class="form-input" type="number" value="180" min="60" max="720"></div>
+          <div class="form-group"><label>Length (inches)</label><input id="length" class="form-input" type="number" value="120" min="60" max="720"></div>
+        </div>
+        <div class="area-display">Area: <span id="area">21600</span> in²</div>
+      </div>
+      <div class="grid">
+        <label class="option-label"><input name="size" type="radio" value="Small (9600–14400 in²)">Small (9600–14400 in²)</label>
+        <label class="option-label"><input name="size" type="radio" value="Medium (14400–21600 in²)">Medium (14400–21600 in²)</label>
+        <label class="option-label"><input name="size" type="radio" value="Large (21600–30000 in²)">Large (21600–30000 in²)</label>
+      </div>
+      <div class="nav-buttons"><button class="btn back-btn" id="back2">Back</button><button class="btn next-btn" id="next2">Continue</button></div>
+    </div>
+
+    <div id="page3" class="page">
+      <h1>Choose Exterior Finish</h1>
+      <div class="grid">
+        <label class="option-label"><input name="exterior" type="radio" value="Composite Grey">Composite Grey</label>
+        <label class="option-label"><input name="exterior" type="radio" value="Composite Black">Composite Black</label>
+        <label class="option-label"><input name="exterior" type="radio" value="Composite Teak">Composite Teak</label>
+        <label class="option-label"><input name="exterior" type="radio" value="Premium Acrylic Render">Premium Acrylic Render (+£2,500)</label>
+      </div>
+      <div class="nav-buttons"><button class="btn back-btn" id="back3">Back</button><button class="btn next-btn" id="next3">Continue</button></div>
+    </div>
+
+    <div id="page4" class="page">
+      <h1>Choose Interior</h1>
+      <div class="grid">
+        <label class="option-label"><input class="int-room" type="checkbox" value="Bathroom" checked>Bathroom</label>
+        <label class="option-label"><input class="int-room" type="checkbox" value="Kitchen" checked>Kitchen</label>
+        <label class="option-label"><input class="int-room" type="checkbox" value="Bedroom" checked>Bedroom</label>
+        <label class="option-label"><input class="int-room" type="checkbox" value="Dining Room">Dining Room</label>
+        <label class="option-label"><input class="int-room" type="checkbox" value="Laundry/Utility">Laundry/Utility</label>
+      </div>
+      <h3>Flooring</h3>
+      <div class="grid">
+        <label class="option-label"><input name="flooring" type="radio" value="Hardwood">Hardwood</label>
+        <label class="option-label"><input name="flooring" type="radio" value="Engineered Wood">Engineered Wood</label>
+        <label class="option-label"><input name="flooring" type="radio" value="Laminate">Laminate</label>
+        <label class="option-label"><input name="flooring" type="radio" value="Luxury Vinyl">Luxury Vinyl</label>
+        <label class="option-label"><input name="flooring" type="radio" value="Ceramic Tile">Ceramic Tile</label>
+        <label class="option-label"><input name="flooring" type="radio" value="Carpet">Carpet</label>
+      </div>
+      <div class="nav-buttons"><button class="btn back-btn" id="back4">Back</button><button class="btn next-btn" id="next4">Continue</button></div>
+    </div>
+
+    <div id="page5" class="page">
+      <h1>Summary & Quote</h1>
+      <div style="background:#f0f7ff;padding:20px;border-radius:8px;border:1px solid #bfdbfe;">
+        <h3>Your Selections</h3>
+        <p><strong>Type:</strong> <span id="summary-type">-</span></p>
+        <p><strong>Size:</strong> <span id="summary-size">-</span></p>
+        <p><strong>Exterior:</strong> <span id="summary-exterior">-</span></p>
+        <p><strong>Interior:</strong> <span id="summary-interior">-</span></p>
+        <p><strong>Flooring:</strong> <span id="summary-flooring">-</span></p>
+        <p><strong>Estimated Quote:</strong> $<span id="summary-quote">0.00</span></p>
+      </div>
+      <div id="zf_div_HtR3EzHuwl7dQL981SrBjL6pD9Xfq3fG4wF0AHYJUVI"></div>
+      <div class="nav-buttons"><button class="btn back-btn" id="back5">Back</button></div>
+    </div>
+  </div>
+  <script>
+    const selections = { home:'', size:'', exterior:'', interior:'', flooring:'', quote:0 };
+    function goToPage(n) {
+      document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+      document.getElementById('page'+n).classList.add('active');
+      document.querySelectorAll('.tab').forEach((t,i)=>{
+        const c=t.querySelector('.tab-circle'), nm=t.querySelector('.tab-name');
+        c.classList.toggle('active', i<n);
+        nm.classList.toggle('active', i===n-1);
+        c.textContent = i<n-1 ? '✓' : i+1;
+      });
+    }
+    // Cards click
+    document.querySelectorAll('.home-card').forEach(card=>{
+      card.addEventListener('click', ()=>{
+        selections.home = card.dataset.name;
+        document.getElementById('summary-type').textContent = selections.home;
+        document.querySelectorAll('.home-card').forEach(c=>c.classList.remove('selected'));
+        card.classList.add('selected');
+        goToPage(2);
+      });
+    });
+    // Size
+    document.getElementById('toggle-custom').addEventListener('click', ()=>{
+      const f=document.getElementById('custom-form'); f.style.display = f.style.display==='block'?'none':'block';
+    });
+    ['width','length'].forEach(id=>document.getElementById(id).addEventListener('input', ()=>{
+      const w=+document.getElementById('width').value; const l=+document.getElementById('length').value;
+      document.getElementById('area').textContent = (w*l).toFixed(0);
+    }));
+    document.getElementById('back2').addEventListener('click', ()=>goToPage(1));
+    document.getElementById('next2').addEventListener('click', ()=>{
+      const sel = document.querySelector('input[name="size"]:checked'); if(!sel){alert('Select size');return;} selections.size=sel.value;
+      document.getElementById('summary-size').textContent = selections.size; goToPage(3);
+    });
+    // Exterior
+    document.getElementById('back3').addEventListener('click', ()=>goToPage(2));
+    document.getElementById('next3').addEventListener('click', ()=>{
+      const sel=document.querySelector('input[name="exterior"]:checked'); if(!sel){alert('Select exterior');return;} selections.exterior=sel.value;
+      document.getElementById('summary-exterior').textContent = selections.exterior; goToPage(4);
+    });
+    // Interior
+    document.getElementById('back4').addEventListener('click', ()=>goToPage(3));
+    document.getElementById('next4').addEventListener('click', ()=>{
+      const rooms=Array.from(document.querySelectorAll('.int-room:checked')).map(cb=>cb.value);
+      const floor = document.querySelector('input[name="flooring"]:checked'); if(!rooms.length||!floor){alert('Select interior & flooring');return;}
+      selections.interior=rooms.join(', '); selections.flooring=floor.value;
+      document.getElementById('summary-interior').textContent=selections.interior;
+      document.getElementById('summary-flooring').textContent=selections.flooring;
+      const w=+document.getElementById('width').value, l=+document.getElementById('length').value;
+      selections.quote=(w*l*0.05).toFixed(2); document.getElementById('summary-quote').textContent=selections.quote;
+      goToPage(5);
+      const zf=document.getElementById('zf_div_HtR3EzHuwl7dQL981SrBjL6pD9Xfq3fG4wF0AHYJUVI'); zf.innerHTML='';
+      const iframe=document.createElement('iframe'); iframe.src='https://forms.zohopublic.eu/aileenapply1/form/testLGS/formperma/HtR3EzHuwl7dQL981SrBjL6pD9Xfq3fG4wF0AHYJUVI?zf_rszfm=1&QuoteAmount='+encodeURIComponent(selections.quote);
+      zf.appendChild(iframe);
+    });
+    document.getElementById('back5').addEventListener('click', ()=>goToPage(4));
+    // Init
+    goToPage(1);
+  </script>
+</body>
+</html>
