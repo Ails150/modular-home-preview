@@ -33,9 +33,10 @@
     .btn { padding: 10px 20px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
     .back-btn { background: #e5e7eb; color: #4b5563; }
     .next-btn { background: #3b82f6; color: #fff; }
-    #zf_div_HtR3EzHuwl7dQL981SrBjL6pD9Xfq3fG4wF0AHYJUVI { margin-top: 20px; }
+    #form-container { margin-top: 20px; }
     iframe { width: 100%; height: 600px; border: none; }
     .quote-note { background: #f0f7ff; padding: 10px; border-radius: 6px; font-style: italic; color: #4a5568; margin-top: 15px; }
+    .hidden-quote { display: none; }
   </style>
 </head>
 <body>
@@ -107,17 +108,19 @@
     </div>
 
     <div id="page5" class="page">
-      <h1>Summary & Quote</h1>
+      <h1>Summary & Book Consultation</h1>
       <div style="background:#f0f7ff;padding:20px;border-radius:8px;border:1px solid #bfdbfe;">
         <h3>Your Selections</h3>
         <p><strong>Type:</strong> <span id="summary-type">-</span></p>
         <p><strong>Size:</strong> <span id="summary-size">-</span></p>
         <p><strong>Exterior:</strong> <span id="summary-exterior">-</span></p>
         <p><strong>Interior:</strong> <span id="summary-interior">-</span></p>
-        <p><strong>Estimated Quote:</strong> £<span id="summary-quote">0.00</span></p>
-        <div class="quote-note">This quote is provided for consideration only. A detailed and final quote will be provided during your consultation.</div>
+        <p class="hidden-quote"><strong>Estimated Quote:</strong> £<span id="summary-quote">0.00</span></p>
+        <div class="quote-note">Based on your selections, we'll provide a detailed quote during your consultation.</div>
       </div>
-      <div id="zf_div_HtR3EzHuwl7dQL981SrBjL6pD9Xfq3fG4wF0AHYJUVI"></div>
+      <div id="form-container">
+        <iframe aria-label='Luxury Garden Studios' frameborder="0" style="height:500px;width:99%;border:none;" src='https://forms.zohopublic.eu/infoluxurygar1/form/LuxuryGardenStudios/formperma/VuTGVdWmmHutZiKB2UxJg1Ti5ePWe9knEx7aMcj-oOo'></iframe>
+      </div>
       <div class="nav-buttons"><button class="btn back-btn" id="back5">Back</button></div>
     </div>
   </div>
@@ -208,9 +211,29 @@
       document.getElementById('summary-interior').textContent=selections.interior;
       document.getElementById('summary-quote').textContent=selections.quote.toLocaleString();
       goToPage(5);
-      const zf=document.getElementById('zf_div_HtR3EzHuwl7dQL981SrBjL6pD9Xfq3fG4wF0AHYJUVI'); zf.innerHTML='';
-      const iframe=document.createElement('iframe'); iframe.src='https://forms.zohopublic.eu/aileenapply1/form/testLGS/formperma/HtR3EzHuwl7dQL981SrBjL6pD9Xfq3fG4wF0AHYJUVI?zf_rszfm=1&QuoteAmount='+encodeURIComponent(selections.quote);
-      zf.appendChild(iframe);
+      
+      // Create summary text for the description field
+      const summaryText = `Type: ${selections.home}\nSize: ${selections.size}\nExterior: ${selections.exterior}\nInterior: ${selections.interior}`;
+      
+      // Update iframe src with parameters for the form
+      const formContainer = document.getElementById('form-container');
+      formContainer.innerHTML = ''; // Clear previous iframe
+      
+      const iframe = document.createElement('iframe');
+      iframe.setAttribute('aria-label', 'Luxury Garden Studios');
+      iframe.setAttribute('frameborder', '0');
+      iframe.style.height = '500px';
+      iframe.style.width = '99%';
+      iframe.style.border = 'none';
+      
+      // Create URL with form parameters
+      const baseUrl = 'https://forms.zohopublic.eu/infoluxurygar1/form/LuxuryGardenStudios/formperma/VuTGVdWmmHutZiKB2UxJg1Ti5ePWe9knEx7aMcj-oOo';
+      const params = new URLSearchParams();
+      params.append('Description', summaryText);
+      params.append('Quote', selections.quote);
+      
+      iframe.src = `${baseUrl}?${params.toString()}`;
+      formContainer.appendChild(iframe);
     });
     document.getElementById('back5').addEventListener('click', ()=>goToPage(4));
     // Init
