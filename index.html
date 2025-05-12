@@ -1,243 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Modular Home Builder</title>
-  <style>
-    body { font-family: Arial, sans-serif; background: #f5f7fa; margin: 0; padding: 20px; }
-    .container { max-width: 800px; margin: 0 auto; background: white; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    .tabs { display: flex; margin-bottom: 20px; }
-    .tab { flex: 1; text-align: center; cursor: pointer; }
-    .tab-circle { width: 30px; height: 30px; border-radius: 50%; background: #ddd; color: #666; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 5px; font-weight: bold; }
-    .tab-circle.active { background: #3b82f6; color: #fff; }
-    .tab-name { font-size: 14px; color: #666; }
-    .tab-name.active { color: #3b82f6; font-weight: bold; }
-    .page { display: none; }
-    .page.active { display: block; }
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
-    .home-card, .option-label { display: flex; align-items: center; padding: 15px; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; transition: box-shadow 0.2s; }
-    .home-card:hover, .option-label:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-    .home-card.selected, .option-label.selected { border-color: #3b82f6; background: #eff6ff; }
-    .card-img { font-size: 40px; margin-right: 10px; }
-    .size-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-    .custom-btn { background: #3b82f6; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; }
-    .custom-form { display: none; background: #f0f7ff; padding: 15px; border: 1px solid #bfdbfe; border-radius: 8px; margin-bottom: 20px; }
-    .form-row { display: flex; gap: 15px; margin-bottom: 15px; }
-    .form-group { flex: 1; display: flex; flex-direction: column; }
-    .form-group label { margin-bottom: 5px; font-weight: 500; }
-    .form-input { padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
-    .select-dropdown { padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
-    .area-display { text-align: right; font-weight: bold; margin-top: 10px; }
-    .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; }
-    .btn { padding: 10px 20px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
-    .back-btn { background: #e5e7eb; color: #4b5563; }
-    .next-btn { background: #3b82f6; color: #fff; }
-    #form-container { margin-top: 20px; }
-    iframe { width: 100%; height: 600px; border: none; }
-    .quote-note { background: #f0f7ff; padding: 10px; border-radius: 6px; font-style: italic; color: #4a5568; margin-top: 15px; }
-    .hidden-quote { display: none; }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="tabs">
-      <div class="tab" data-page="1"><div class="tab-circle active">1</div><div class="tab-name active">Type</div></div>
-      <div class="tab" data-page="2"><div class="tab-circle">2</div><div class="tab-name">Size</div></div>
-      <div class="tab" data-page="3"><div class="tab-circle">3</div><div class="tab-name">Exterior</div></div>
-      <div class="tab" data-page="4"><div class="tab-circle">4</div><div class="tab-name">Interior</div></div>
-      <div class="tab" data-page="5"><div class="tab-circle">5</div><div class="tab-name">Summary</div></div>
-    </div>
+// This JavaScript code should be added to your modular home builder script
+// Add this at the end of the "next4" button click handler
 
-    <div id="page1" class="page active">
-      <h1>Design Your Modular Home</h1>
-      <div class="grid">
-        <div class="home-card" data-name="1 Bedroom Home"><div class="card-img">🏠</div><div>1 Bedroom Home</div></div>
-        <div class="home-card" data-name="2 Bedroom Home"><div class="card-img">🏠</div><div>2 Bedroom Home</div></div>
-        <div class="home-card" data-name="3 Bedroom Home"><div class="card-img">🏠</div><div>3 Bedroom Home</div></div>
-        <div class="home-card" data-name="4 Bedroom Home"><div class="card-img">🏠</div><div>4 Bedroom Home</div></div>
-      </div>
-    </div>
-
-    <div id="page2" class="page">
-      <h1>Choose Your Size</h1>
-      <div class="size-header"><h3>Home Size Options</h3><button class="custom-btn" id="toggle-custom">Custom Size</button></div>
-      <div class="custom-form" id="custom-form">
-        <div class="form-row">
-          <div class="form-group">
-            <label>Select Size</label>
-            <select id="custom-size" class="select-dropdown">
-              <option value="6x4m">6x4m</option>
-              <option value="8x4m">8x4m</option>
-              <option value="10x4m">10x4m</option>
-              <option value="12x4m">12x4m</option>
-              <option value="13x4m">13x4m</option>
-              <option value="14x4m">14x4m</option>
-              <option value="15x4m">15x4m</option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class="grid">
-        <label class="option-label"><input name="size" type="radio" value="7x4m (Small)">7x4m (Small)</label>
-        <label class="option-label"><input name="size" type="radio" value="9x4m (Medium)">9x4m (Medium)</label>
-        <label class="option-label"><input name="size" type="radio" value="11x4m (Large)">11x4m (Large)</label>
-      </div>
-      <div class="nav-buttons"><button class="btn back-btn" id="back2">Back</button><button class="btn next-btn" id="next2">Continue</button></div>
-    </div>
-
-    <div id="page3" class="page">
-      <h1>Choose Exterior Finish</h1>
-      <div class="grid">
-        <label class="option-label"><input name="exterior" type="radio" value="Composite Grey">Composite Grey</label>
-        <label class="option-label"><input name="exterior" type="radio" value="Composite Black">Composite Black</label>
-        <label class="option-label"><input name="exterior" type="radio" value="Composite Teak">Composite Teak</label>
-        <label class="option-label"><input name="exterior" type="radio" value="Premium Acrylic Render">Premium Acrylic Render (+£2,500)</label>
-      </div>
-      <div class="nav-buttons"><button class="btn back-btn" id="back3">Back</button><button class="btn next-btn" id="next3">Continue</button></div>
-    </div>
-
-    <div id="page4" class="page">
-      <h1>Choose Interior</h1>
-      <div class="grid">
-        <label class="option-label"><input class="int-room" type="checkbox" value="Bathroom" checked>Bathroom</label>
-        <label class="option-label"><input class="int-room" type="checkbox" value="Kitchen" checked>Kitchen</label>
-        <label class="option-label"><input class="int-room" type="checkbox" value="Bedroom" checked>Bedroom</label>
-      </div>
-      <div class="nav-buttons"><button class="btn back-btn" id="back4">Back</button><button class="btn next-btn" id="next4">Continue</button></div>
-    </div>
-
-    <div id="page5" class="page">
-      <h1>Summary & Book Consultation</h1>
-      <div style="background:#f0f7ff;padding:20px;border-radius:8px;border:1px solid #bfdbfe;">
-        <h3>Your Selections</h3>
-        <p><strong>Type:</strong> <span id="summary-type">-</span></p>
-        <p><strong>Size:</strong> <span id="summary-size">-</span></p>
-        <p><strong>Exterior:</strong> <span id="summary-exterior">-</span></p>
-        <p><strong>Interior:</strong> <span id="summary-interior">-</span></p>
-        <p class="hidden-quote"><strong>Estimated Quote:</strong> £<span id="summary-quote">0.00</span></p>
-        <div class="quote-note">Based on your selections, we'll provide a detailed quote during your consultation.</div>
-      </div>
-      <div id="form-container">
-        <iframe aria-label='Luxury Garden Studios' frameborder="0" style="height:500px;width:99%;border:none;" src='https://forms.zohopublic.eu/infoluxurygar1/form/LuxuryGardenStudios/formperma/VuTGVdWmmHutZiKB2UxJg1Ti5ePWe9knEx7aMcj-oOo'></iframe>
-      </div>
-      <div class="nav-buttons"><button class="btn back-btn" id="back5">Back</button></div>
-    </div>
-  </div>
-  <script>
-    const selections = { home:'', size:'', exterior:'', interior:'', quote:0 };
-    
-    // Size price mapping
-    const sizePrice = {
-      '7x4m (Small)': 34000,
-      '9x4m (Medium)': 46000,
-      '11x4m (Large)': 65000,
-      '6x4m': 28000,
-      '8x4m': 40000,
-      '10x4m': 52000,
-      '12x4m': 70000,
-      '13x4m': 75000,
-      '14x4m': 80000,
-      '15x4m': 84000
-    };
-    
-    function goToPage(n) {
-      document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-      document.getElementById('page'+n).classList.add('active');
-      document.querySelectorAll('.tab').forEach((t,i)=>{
-        const c=t.querySelector('.tab-circle'), nm=t.querySelector('.tab-name');
-        c.classList.toggle('active', i<n);
-        nm.classList.toggle('active', i===n-1);
-        c.textContent = i<n-1 ? '✓' : i+1;
-      });
-    }
-    // Cards click
-    document.querySelectorAll('.home-card').forEach(card=>{
-      card.addEventListener('click', ()=>{
-        selections.home = card.dataset.name;
-        document.getElementById('summary-type').textContent = selections.home;
-        document.querySelectorAll('.home-card').forEach(c=>c.classList.remove('selected'));
-        card.classList.add('selected');
-        goToPage(2);
-      });
-    });
-    // Size
-    document.getElementById('toggle-custom').addEventListener('click', ()=>{
-      const f=document.getElementById('custom-form'); f.style.display = f.style.display==='block'?'none':'block';
-    });
-    
-    document.getElementById('back2').addEventListener('click', ()=>goToPage(1));
-    document.getElementById('next2').addEventListener('click', ()=>{
-      let size = '';
-      const sel = document.querySelector('input[name="size"]:checked');
-      const customForm = document.getElementById('custom-form');
-      
-      // Check if custom size is showing and use that if so
-      if (customForm.style.display === 'block') {
-        size = document.getElementById('custom-size').value;
-      } else if (sel) {
-        size = sel.value;
-      } else {
-        alert('Please select a size');
-        return;
-      }
-      
-      selections.size = size;
-      selections.quote = sizePrice[size] || 0;
-      document.getElementById('summary-size').textContent = selections.size;
-      goToPage(3);
-    });
-    // Exterior
-    document.getElementById('back3').addEventListener('click', ()=>goToPage(2));
-    document.getElementById('next3').addEventListener('click', ()=>{
-      const sel=document.querySelector('input[name="exterior"]:checked'); 
-      if(!sel){alert('Select exterior');return;} 
-      selections.exterior=sel.value;
-      document.getElementById('summary-exterior').textContent = selections.exterior; 
-      
-      // Add extra cost for premium acrylic render
-      if (selections.exterior.includes('Premium Acrylic Render')) {
-        selections.quote += 2500;
-      }
-      
-      goToPage(4);
-    });
-    // Interior
-    document.getElementById('back4').addEventListener('click', ()=>goToPage(3));
-    document.getElementById('next4').addEventListener('click', ()=>{
-      const rooms=Array.from(document.querySelectorAll('.int-room:checked')).map(cb=>cb.value);
-      if(!rooms.length){alert('Select at least one interior option');return;}
-      selections.interior=rooms.join(', ');
-      document.getElementById('summary-interior').textContent=selections.interior;
-      document.getElementById('summary-quote').textContent=selections.quote.toLocaleString();
-      goToPage(5);
-      
-      // Create summary text for the description field
-      const summaryText = `Type: ${selections.home}\nSize: ${selections.size}\nExterior: ${selections.exterior}\nInterior: ${selections.interior}`;
-      
-      // Update iframe src with parameters for the form
-      const formContainer = document.getElementById('form-container');
-      formContainer.innerHTML = ''; // Clear previous iframe
-      
-      const iframe = document.createElement('iframe');
-      iframe.setAttribute('aria-label', 'Luxury Garden Studios');
-      iframe.setAttribute('frameborder', '0');
-      iframe.style.height = '500px';
-      iframe.style.width = '99%';
-      iframe.style.border = 'none';
-      
-      // Create URL with form parameters
-      const baseUrl = 'https://forms.zohopublic.eu/infoluxurygar1/form/LuxuryGardenStudios/formperma/VuTGVdWmmHutZiKB2UxJg1Ti5ePWe9knEx7aMcj-oOo';
-      const params = new URLSearchParams();
-      params.append('Description', summaryText);
-      params.append('Quote', selections.quote);
-      
-      iframe.src = `${baseUrl}?${params.toString()}`;
-      formContainer.appendChild(iframe);
-    });
-    document.getElementById('back5').addEventListener('click', ()=>goToPage(4));
-    // Init
-    goToPage(1);
-  </script>
-</body>
-</html>
+document.getElementById('next4').addEventListener('click', function() {
+  // Your existing code to collect selections and update summary
+  const rooms = Array.from(document.querySelectorAll('.int-room:checked')).map(cb => cb.value);
+  if (!rooms.length) {
+    alert('Select at least one interior option');
+    return;
+  }
+  
+  selections.interior = rooms.join(', ');
+  document.getElementById('summary-interior').textContent = selections.interior;
+  document.getElementById('summary-quote').textContent = selections.quote.toLocaleString();
+  
+  // Create the summary text
+  const summaryText = `Type: ${selections.home}\nSize: ${selections.size}\nExterior: ${selections.exterior}\nInterior: ${selections.interior}`;
+  
+  // Now, set up the Zoho form iframe with the form data
+  const formContainer = document.getElementById('form-container');
+  formContainer.innerHTML = '';
+  
+  // Create an iframe for the Zoho form
+  const iframe = document.createElement('iframe');
+  iframe.setAttribute('aria-label', 'Luxury Garden Studios');
+  iframe.setAttribute('frameborder', '0');
+  iframe.style.height = '500px';
+  iframe.style.width = '99%';
+  iframe.style.border = 'none';
+  
+  // Set the source URL with parameters - adjust field names to match your Zoho form
+  const baseUrl = 'https://forms.zohopublic.eu/infoluxurygar1/form/LuxuryGardenStudios/formperma/VuTGVdWmmHutZiKB2UxJg1Ti5ePWe9knEx7aMcj-oOo';
+  
+  // These field names need to match exactly the field names in your Zoho form
+  // You may need to inspect the Zoho form or check their documentation to get these exact names
+  const params = new URLSearchParams({
+    'SingleLine': selections.home, // Home type field
+    'SingleLine1': selections.size, // Size field
+    'SingleLine2': selections.exterior, // Exterior field
+    'Paragraph': summaryText, // Description/summary field
+    'SingleLine3': selections.quote.toString(), // Quote field
+    'SingleLine4': selections.interior // Interior field
+  });
+  
+  iframe.src = `${baseUrl}?${params.toString()}`;
+  formContainer.appendChild(iframe);
+  
+  goToPage(5);
+});
