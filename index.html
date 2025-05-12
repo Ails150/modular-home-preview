@@ -27,6 +27,7 @@
     .form-group { flex: 1; display: flex; flex-direction: column; }
     .form-group label { margin-bottom: 5px; font-weight: 500; }
     .form-input { padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+    .select-dropdown { padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
     .area-display { text-align: right; font-weight: bold; margin-top: 10px; }
     .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; }
     .btn { padding: 10px 20px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
@@ -34,6 +35,7 @@
     .next-btn { background: #3b82f6; color: #fff; }
     #zf_div_HtR3EzHuwl7dQL981SrBjL6pD9Xfq3fG4wF0AHYJUVI { margin-top: 20px; }
     iframe { width: 100%; height: 600px; border: none; }
+    .quote-note { background: #f0f7ff; padding: 10px; border-radius: 6px; font-style: italic; color: #4a5568; margin-top: 15px; }
   </style>
 </head>
 <body>
@@ -57,19 +59,28 @@
     </div>
 
     <div id="page2" class="page">
-      <h1>Choose Your Size (inches)</h1>
+      <h1>Choose Your Size</h1>
       <div class="size-header"><h3>Home Size Options</h3><button class="custom-btn" id="toggle-custom">Custom Size</button></div>
       <div class="custom-form" id="custom-form">
         <div class="form-row">
-          <div class="form-group"><label>Width (inches)</label><input id="width" class="form-input" type="number" value="180" min="60" max="720"></div>
-          <div class="form-group"><label>Length (inches)</label><input id="length" class="form-input" type="number" value="120" min="60" max="720"></div>
+          <div class="form-group">
+            <label>Select Size</label>
+            <select id="custom-size" class="select-dropdown">
+              <option value="6x4m">6x4m</option>
+              <option value="8x4m">8x4m</option>
+              <option value="10x4m">10x4m</option>
+              <option value="12x4m">12x4m</option>
+              <option value="13x4m">13x4m</option>
+              <option value="14x4m">14x4m</option>
+              <option value="15x4m">15x4m</option>
+            </select>
+          </div>
         </div>
-        <div class="area-display">Area: <span id="area">21600</span> in²</div>
       </div>
       <div class="grid">
-        <label class="option-label"><input name="size" type="radio" value="Small (9600–14400 in²)">Small (9600–14400 in²)</label>
-        <label class="option-label"><input name="size" type="radio" value="Medium (14400–21600 in²)">Medium (14400–21600 in²)</label>
-        <label class="option-label"><input name="size" type="radio" value="Large (21600–30000 in²)">Large (21600–30000 in²)</label>
+        <label class="option-label"><input name="size" type="radio" value="7x4m (Small)">7x4m (Small)</label>
+        <label class="option-label"><input name="size" type="radio" value="9x4m (Medium)">9x4m (Medium)</label>
+        <label class="option-label"><input name="size" type="radio" value="11x4m (Large)">11x4m (Large)</label>
       </div>
       <div class="nav-buttons"><button class="btn back-btn" id="back2">Back</button><button class="btn next-btn" id="next2">Continue</button></div>
     </div>
@@ -91,17 +102,6 @@
         <label class="option-label"><input class="int-room" type="checkbox" value="Bathroom" checked>Bathroom</label>
         <label class="option-label"><input class="int-room" type="checkbox" value="Kitchen" checked>Kitchen</label>
         <label class="option-label"><input class="int-room" type="checkbox" value="Bedroom" checked>Bedroom</label>
-        <label class="option-label"><input class="int-room" type="checkbox" value="Dining Room">Dining Room</label>
-        <label class="option-label"><input class="int-room" type="checkbox" value="Laundry/Utility">Laundry/Utility</label>
-      </div>
-      <h3>Flooring</h3>
-      <div class="grid">
-        <label class="option-label"><input name="flooring" type="radio" value="Hardwood">Hardwood</label>
-        <label class="option-label"><input name="flooring" type="radio" value="Engineered Wood">Engineered Wood</label>
-        <label class="option-label"><input name="flooring" type="radio" value="Laminate">Laminate</label>
-        <label class="option-label"><input name="flooring" type="radio" value="Luxury Vinyl">Luxury Vinyl</label>
-        <label class="option-label"><input name="flooring" type="radio" value="Ceramic Tile">Ceramic Tile</label>
-        <label class="option-label"><input name="flooring" type="radio" value="Carpet">Carpet</label>
       </div>
       <div class="nav-buttons"><button class="btn back-btn" id="back4">Back</button><button class="btn next-btn" id="next4">Continue</button></div>
     </div>
@@ -114,15 +114,30 @@
         <p><strong>Size:</strong> <span id="summary-size">-</span></p>
         <p><strong>Exterior:</strong> <span id="summary-exterior">-</span></p>
         <p><strong>Interior:</strong> <span id="summary-interior">-</span></p>
-        <p><strong>Flooring:</strong> <span id="summary-flooring">-</span></p>
-        <p><strong>Estimated Quote:</strong> $<span id="summary-quote">0.00</span></p>
+        <p><strong>Estimated Quote:</strong> £<span id="summary-quote">0.00</span></p>
+        <div class="quote-note">This quote is provided for consideration only. A detailed and final quote will be provided during your consultation.</div>
       </div>
       <div id="zf_div_HtR3EzHuwl7dQL981SrBjL6pD9Xfq3fG4wF0AHYJUVI"></div>
       <div class="nav-buttons"><button class="btn back-btn" id="back5">Back</button></div>
     </div>
   </div>
   <script>
-    const selections = { home:'', size:'', exterior:'', interior:'', flooring:'', quote:0 };
+    const selections = { home:'', size:'', exterior:'', interior:'', quote:0 };
+    
+    // Size price mapping
+    const sizePrice = {
+      '7x4m (Small)': 34000,
+      '9x4m (Medium)': 46000,
+      '11x4m (Large)': 65000,
+      '6x4m': 28000,
+      '8x4m': 40000,
+      '10x4m': 52000,
+      '12x4m': 70000,
+      '13x4m': 75000,
+      '14x4m': 80000,
+      '15x4m': 84000
+    };
+    
     function goToPage(n) {
       document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
       document.getElementById('page'+n).classList.add('active');
@@ -147,31 +162,51 @@
     document.getElementById('toggle-custom').addEventListener('click', ()=>{
       const f=document.getElementById('custom-form'); f.style.display = f.style.display==='block'?'none':'block';
     });
-    ['width','length'].forEach(id=>document.getElementById(id).addEventListener('input', ()=>{
-      const w=+document.getElementById('width').value; const l=+document.getElementById('length').value;
-      document.getElementById('area').textContent = (w*l).toFixed(0);
-    }));
+    
     document.getElementById('back2').addEventListener('click', ()=>goToPage(1));
     document.getElementById('next2').addEventListener('click', ()=>{
-      const sel = document.querySelector('input[name="size"]:checked'); if(!sel){alert('Select size');return;} selections.size=sel.value;
-      document.getElementById('summary-size').textContent = selections.size; goToPage(3);
+      let size = '';
+      const sel = document.querySelector('input[name="size"]:checked');
+      const customForm = document.getElementById('custom-form');
+      
+      // Check if custom size is showing and use that if so
+      if (customForm.style.display === 'block') {
+        size = document.getElementById('custom-size').value;
+      } else if (sel) {
+        size = sel.value;
+      } else {
+        alert('Please select a size');
+        return;
+      }
+      
+      selections.size = size;
+      selections.quote = sizePrice[size] || 0;
+      document.getElementById('summary-size').textContent = selections.size;
+      goToPage(3);
     });
     // Exterior
     document.getElementById('back3').addEventListener('click', ()=>goToPage(2));
     document.getElementById('next3').addEventListener('click', ()=>{
-      const sel=document.querySelector('input[name="exterior"]:checked'); if(!sel){alert('Select exterior');return;} selections.exterior=sel.value;
-      document.getElementById('summary-exterior').textContent = selections.exterior; goToPage(4);
+      const sel=document.querySelector('input[name="exterior"]:checked'); 
+      if(!sel){alert('Select exterior');return;} 
+      selections.exterior=sel.value;
+      document.getElementById('summary-exterior').textContent = selections.exterior; 
+      
+      // Add extra cost for premium acrylic render
+      if (selections.exterior.includes('Premium Acrylic Render')) {
+        selections.quote += 2500;
+      }
+      
+      goToPage(4);
     });
     // Interior
     document.getElementById('back4').addEventListener('click', ()=>goToPage(3));
     document.getElementById('next4').addEventListener('click', ()=>{
       const rooms=Array.from(document.querySelectorAll('.int-room:checked')).map(cb=>cb.value);
-      const floor = document.querySelector('input[name="flooring"]:checked'); if(!rooms.length||!floor){alert('Select interior & flooring');return;}
-      selections.interior=rooms.join(', '); selections.flooring=floor.value;
+      if(!rooms.length){alert('Select at least one interior option');return;}
+      selections.interior=rooms.join(', ');
       document.getElementById('summary-interior').textContent=selections.interior;
-      document.getElementById('summary-flooring').textContent=selections.flooring;
-      const w=+document.getElementById('width').value, l=+document.getElementById('length').value;
-      selections.quote=(w*l*0.05).toFixed(2); document.getElementById('summary-quote').textContent=selections.quote;
+      document.getElementById('summary-quote').textContent=selections.quote.toLocaleString();
       goToPage(5);
       const zf=document.getElementById('zf_div_HtR3EzHuwl7dQL981SrBjL6pD9Xfq3fG4wF0AHYJUVI'); zf.innerHTML='';
       const iframe=document.createElement('iframe'); iframe.src='https://forms.zohopublic.eu/aileenapply1/form/testLGS/formperma/HtR3EzHuwl7dQL981SrBjL6pD9Xfq3fG4wF0AHYJUVI?zf_rszfm=1&QuoteAmount='+encodeURIComponent(selections.quote);
